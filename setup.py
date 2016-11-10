@@ -17,7 +17,7 @@ setup(
     version='0.1.4',
     description='Tap13 to jUnit',
     long_description=long_description,
-    url='https://github.com/nodejs/build',
+    url='https://github.com/jbergstroem/tap2junit',
     author='Johan Bergström',
     author_email='bugs@bergtroem.nu',
     classifiers=[
