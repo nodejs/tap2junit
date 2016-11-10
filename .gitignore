@@ -17,3 +17,5 @@ build
 
 *.tap
 *.xml
+
+*.egg-info
