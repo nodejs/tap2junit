@@ -1,0 +1,9 @@
+TAP version 13
+1..1
+not ok 1 parallel/test-accessor-properties
+  ---
+  duration_ms: 1.711
+  severity: fail
+  exitcode: 1
+  stack: |-
+  ...
