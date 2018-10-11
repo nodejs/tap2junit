@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='tap2junit',
-    version='0.1.4',
+    version='0.1.5',
     description='Tap13 to jUnit',
     long_description=long_description,
     url='https://github.com/jbergstroem/tap2junit',
