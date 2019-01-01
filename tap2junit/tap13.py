@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Copyright 2013, Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -189,6 +190,6 @@ if __name__ == "__main__":
 
     import pprint
     for test in t.tests:
-        print test.result, test.id, test.description, "#", test.directive, test.comment
+        print(test.result, test.id, test.description, "#", test.directive, test.comment)
         pprint.pprint(test.yaml_buffer)
         pprint.pprint(test.yaml)
