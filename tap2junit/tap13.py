@@ -1,4 +1,3 @@
-from __future__ import print_function
 # Copyright 2013, Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -17,11 +16,15 @@ from __future__ import print_function
 #
 # Author: Josef Skladanka <jskladan@redhat.com>
 
+from __future__ import print_function
 import re
 import yamlish
 import StringIO
 
-
+try:
+    basestring
+except NameError:
+    basestring = str
 
 RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
 RE_PLAN = re.compile(r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$")
@@ -144,7 +147,7 @@ class TAP13(object):
 
 
     def parse(self, source):
-        if isinstance(source, (str, unicode)):
+        if isinstance(source, basestring):
             self._parse(StringIO.StringIO(source))
         elif hasattr(source, "__iter__"):
             self._parse(source)
