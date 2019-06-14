@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
+from setuptools import setup
 # To use a consistent encoding
 from codecs import open
 from os import path
@@ -26,6 +26,7 @@ setup(
         'Topic :: Software Development :: Build Tools',
         "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
         'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
     ],
     keywords='tap13 junit',
     packages=['tap2junit'],

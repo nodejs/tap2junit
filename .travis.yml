@@ -1,0 +1,16 @@
+language: python
+python:
+  - 2.7
+  - 3.7
+env:
+  - FILENAME=test-eslint1
+  - FILENAME=test-eslint2
+  - FILENAME=test-eslint3
+  - FILENAME=test
+  - FILENAME=test2
+  - FILENAME=test3
+install: pip install flake8 junit-xml yamlish
+before_script: flake8 . --count --select=E9,F --show-source --statistics
+script:
+  - python -m tap2junit -i test/fixtures/${FILENAME}.tap -o test/output/${FILENAME}.xml
+  - cat test/output/${FILENAME}.xml
