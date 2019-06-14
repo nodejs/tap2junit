@@ -14,10 +14,20 @@
 #
 # Author: Josef Skladanka <jskladan@redhat.com>
 
-import re
-import yamlish
-import StringIO
+from __future__ import print_function
 
+import re
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
+import yamlish
+
+try:
+    basestring
+except NameError:
+    basestring = str
 
 
 RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
@@ -133,8 +143,8 @@ class TAP13(object):
 
 
     def parse(self, source):
-        if isinstance(source, (str, unicode)):
-            self._parse(StringIO.StringIO(source))
+        if isinstance(source, basestring):
+            self._parse(StringIO(source))
         elif hasattr(source, "__iter__"):
             self._parse(source)
 
@@ -178,6 +188,6 @@ if __name__ == "__main__":
 
     import pprint
     for test in t.tests:
-        print test.result, test.id, test.description, "#", test.directive, test.comment
+        print(test.result, test.id, test.description, "#", test.directive, test.comment)
         pprint.pprint(test._yaml_buffer)
         pprint.pprint(test.yaml)
