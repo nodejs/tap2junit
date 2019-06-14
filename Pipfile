@@ -10,4 +10,3 @@ junit-xml = "*"
 [dev-packages]
 
 [requires]
-python_version = "2.7"

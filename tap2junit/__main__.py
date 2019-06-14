@@ -2,7 +2,7 @@ import argparse
 import os
 import platform
 from junit_xml import TestSuite, TestCase
-from tap13 import TAP13 as tap13
+from tap2junit.tap13 import TAP13 as tap13
 
 
 def map_yaml_to_junit(test):
