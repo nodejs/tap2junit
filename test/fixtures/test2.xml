@@ -1,1 +1,0 @@
-<testsuites disabled="0" errors="0" failures="0" tests="1" time="1.711"><testsuite disabled="0" errors="0" failures="0" hostname="4a031e73bedf" name="test" skipped="0" tests="1" time="1.711"><testcase name="parallel/test-accessor-properties" time="1.711000" /></testsuite></testsuites>
