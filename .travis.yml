@@ -12,5 +12,6 @@ env:
 install: pip install flake8 junit-xml yamlish
 before_script: flake8 . --count --select=E9,F --show-source --statistics
 script:
+  - python tap2junit/tap13.py
   - python -m tap2junit -i test/fixtures/${FILENAME}.tap -o test/output/${FILENAME}.xml
   - cat test/output/${FILENAME}.xml

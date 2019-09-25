@@ -1,4 +1,3 @@
-from __future__ import print_function
 # Copyright 2013, Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -20,12 +19,14 @@ from __future__ import print_function
 from __future__ import print_function
 
 import re
+
+import yamlish
+
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
-    
-import yamlish
+
 
 try:
     basestring
@@ -34,15 +35,23 @@ except NameError:
 
 
 RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
-RE_PLAN = re.compile(r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$")
-RE_TEST_LINE = re.compile(r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$",  re.IGNORECASE)
+RE_PLAN = re.compile(
+    r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$"
+)
+RE_TEST_LINE = re.compile(
+    (
+        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
+        r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
+    ),
+    re.IGNORECASE,
+)
 RE_EXPLANATION = re.compile(r"^\s*#\s*(?P<explanation>.+)?\s*$")
 RE_YAMLISH_START = re.compile(r"^\s*---.*$")
 RE_YAMLISH_END = re.compile(r"^\s*\.\.\.\s*$")
 
 
 class Test(object):
-    def __init__(self, result, id, description = None, directive = None, comment = None):
+    def __init__(self, result, id, description=None, directive=None, comment=None):
         self.result = result
         self.id = id
         self.description = description
@@ -61,7 +70,6 @@ class TAP13(object):
         self.tests = []
         self.__tests_counter = 0
         self.tests_planned = None
-
 
     def _parse(self, source):
         seek_version = True
@@ -116,11 +124,11 @@ class TAP13(object):
                 m = RE_PLAN.match(line)
                 if m:
                     d = m.groupdict()
-                    self.tests_planned = int(d.get('end', 0))
+                    self.tests_planned = int(d.get("end", 0))
                     seek_plan = False
 
                     # Stop processing if tests were found before the plan
-                    #    if plan is at the end, it must be the last line -> stop processing
+                    #    if plan is at the end, it must be last line -> stop processing
                     if self.__tests_counter > 0:
                         break
 
@@ -129,15 +137,22 @@ class TAP13(object):
                 if m:
                     self.__tests_counter += 1
                     t_attrs = m.groupdict()
-                    if t_attrs['id'] is None:
-                        t_attrs['id'] = self.__tests_counter
-                    t_attrs['id'] = int(t_attrs['id'])
-                    if t_attrs['id'] < self.__tests_counter:
+                    if t_attrs["id"] is None:
+                        t_attrs["id"] = self.__tests_counter
+                    t_attrs["id"] = int(t_attrs["id"])
+                    if t_attrs["id"] < self.__tests_counter:
                         raise ValueError("Descending test id on line: %r" % line)
-                    # according to TAP13 specs, missing tests must be handled as 'not ok'
-                    # here we add the missing tests in sequence
-                    while t_attrs['id'] > self.__tests_counter:
-                        self.tests.append(Test('not ok', self.__tests_counter, comment = 'DIAG: Test %s not present' % self.__tests_counter))
+                    # according to TAP13 specs, missing tests must be handled as
+                    # 'not ok'.  Here we add the missing tests in sequence
+                    while t_attrs["id"] > self.__tests_counter:
+                        self.tests.append(
+                            Test(
+                                "not ok",
+                                self.__tests_counter,
+                                comment="DIAG: Test %s not present"
+                                % self.__tests_counter,
+                            )
+                        )
                         self.__tests_counter += 1
                     t = Test(**t_attrs)
                     self.tests.append(t)
@@ -150,8 +165,9 @@ class TAP13(object):
 
         if len(self.tests) != self.tests_planned:
             for i in range(len(self.tests), self.tests_planned):
-                self.tests.append(Test('not ok', i+1, comment = 'DIAG: Test %s not present'))
-
+                self.tests.append(
+                    Test("not ok", i + 1, comment="DIAG: Test %s not present")
+                )
 
     def parse(self, source):
         if isinstance(source, basestring):
@@ -199,6 +215,7 @@ if __name__ == "__main__":
     t.parse(input)
 
     import pprint
+
     for test in t.tests:
         print(test.result, test.id, test.description, "#", test.directive, test.comment)
         pprint.pprint(test.yaml_buffer)
