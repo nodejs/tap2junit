@@ -13,6 +13,7 @@ setuptools.setup(
     version="0.1.5",
     description="Tap13 to jUnit",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/nodejs/tap2junit",
     author="Node.js contributors",
     author_email="cclauss@me.com",
