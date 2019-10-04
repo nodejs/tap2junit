@@ -1,57 +1,35 @@
-# Copyright 2013, Red Hat, Inc.
+# Copyright 2019, Red Hat, Inc.
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 # Author: Josef Skladanka <jskladan@redhat.com>
 
-from __future__ import print_function
-
 import re
-
 import yamlish
+import StringIO
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-
-try:
-    basestring
-except NameError:
-    basestring = str
 
 
 RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
-RE_PLAN = re.compile(
-    r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$"
-)
-RE_TEST_LINE = re.compile(
-    (
-        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
-        r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
-    ),
-    re.IGNORECASE,
-)
+RE_PLAN = re.compile(r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$")
+RE_TEST_LINE = re.compile(r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$",  re.IGNORECASE)
 RE_EXPLANATION = re.compile(r"^\s*#\s*(?P<explanation>.+)?\s*$")
 RE_YAMLISH_START = re.compile(r"^\s*---.*$")
 RE_YAMLISH_END = re.compile(r"^\s*\.\.\.\s*$")
 
 
 class Test(object):
-    def __init__(self, result, id, description=None, directive=None, comment=None):
+    def __init__(self, result, id, description = None, directive = None, comment = None):
         self.result = result
         self.id = id
         self.description = description
@@ -60,8 +38,8 @@ class Test(object):
         except AttributeError:
             self.directive = directive
         self.comment = comment
-        self.yaml = {}
-        self.yaml_buffer = []
+        self.yaml = None
+        self._yaml_buffer = None
         self.diagnostics = []
 
 
@@ -71,6 +49,7 @@ class TAP13(object):
         self.__tests_counter = 0
         self.tests_planned = None
 
+
     def _parse(self, source):
         seek_version = True
         seek_plan = False
@@ -79,24 +58,16 @@ class TAP13(object):
         in_test = False
         in_yaml = False
         for line in source:
-
             if not seek_version and RE_VERSION.match(line):
-                # refack: breaking TAP13 spec, to allow multiple TAP headers
-                seek_version = True
-                seek_plan = False
-                seek_test = False
-                in_test = False
-                in_yaml = False
-                self.__tests_counter = 0
-                # raise ValueError("Bad TAP format, multiple TAP headers")
+                raise ValueError("Bad TAP format, multiple TAP headers")
 
             if in_yaml:
                 if RE_YAMLISH_END.match(line):
-                    self.tests[-1].yaml_buffer.append(line.strip())
+                    self.tests[-1]._yaml_buffer.append(line.strip())
                     in_yaml = False
-                    self.tests[-1].yaml = yamlish.load(self.tests[-1].yaml_buffer)
+                    self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
                 else:
-                    self.tests[-1].yaml_buffer.append(line.rstrip())
+                    self.tests[-1]._yaml_buffer.append(line.rstrip())
                 continue
 
             line = line.strip()
@@ -106,7 +77,7 @@ class TAP13(object):
                     self.tests[-1].diagnostics.append(line)
                     continue
                 if RE_YAMLISH_START.match(line):
-                    self.tests[-1].yaml_buffer = [line.strip()]
+                    self.tests[-1]._yaml_buffer = [line.strip()]
                     in_yaml = True
                     continue
 
@@ -124,11 +95,11 @@ class TAP13(object):
                 m = RE_PLAN.match(line)
                 if m:
                     d = m.groupdict()
-                    self.tests_planned = int(d.get("end", 0))
+                    self.tests_planned = int(d.get('end', 0))
                     seek_plan = False
 
                     # Stop processing if tests were found before the plan
-                    #    if plan is at the end, it must be last line -> stop processing
+                    #    if plan is at the end, it must be the last line -> stop processing
                     if self.__tests_counter > 0:
                         break
 
@@ -137,22 +108,15 @@ class TAP13(object):
                 if m:
                     self.__tests_counter += 1
                     t_attrs = m.groupdict()
-                    if t_attrs["id"] is None:
-                        t_attrs["id"] = self.__tests_counter
-                    t_attrs["id"] = int(t_attrs["id"])
-                    if t_attrs["id"] < self.__tests_counter:
+                    if t_attrs['id'] is None:
+                        t_attrs['id'] = self.__tests_counter
+                    t_attrs['id'] = int(t_attrs['id'])
+                    if t_attrs['id'] < self.__tests_counter:
                         raise ValueError("Descending test id on line: %r" % line)
-                    # according to TAP13 specs, missing tests must be handled as
-                    # 'not ok'.  Here we add the missing tests in sequence
-                    while t_attrs["id"] > self.__tests_counter:
-                        self.tests.append(
-                            Test(
-                                "not ok",
-                                self.__tests_counter,
-                                comment="DIAG: Test %s not present"
-                                % self.__tests_counter,
-                            )
-                        )
+                    # according to TAP13 specs, missing tests must be handled as 'not ok'
+                    # here we add the missing tests in sequence
+                    while t_attrs['id'] > self.__tests_counter:
+                        self.tests.append(Test('not ok', self.__tests_counter, comment = 'DIAG: Test %s not present' % self.__tests_counter))
                         self.__tests_counter += 1
                     t = Test(**t_attrs)
                     self.tests.append(t)
@@ -165,16 +129,14 @@ class TAP13(object):
 
         if len(self.tests) != self.tests_planned:
             for i in range(len(self.tests), self.tests_planned):
-                self.tests.append(
-                    Test("not ok", i + 1, comment="DIAG: Test %s not present")
-                )
+                self.tests.append(Test('not ok', i+1, comment = 'DIAG: Test %s not present'))
+
 
     def parse(self, source):
-        if isinstance(source, basestring):
-            self._parse(StringIO(source))
+        if isinstance(source, (str, unicode)):
+            self._parse(StringIO.StringIO(source))
         elif hasattr(source, "__iter__"):
             self._parse(source)
-
 
 if __name__ == "__main__":
     input = """
@@ -215,8 +177,7 @@ if __name__ == "__main__":
     t.parse(input)
 
     import pprint
-
     for test in t.tests:
-        print(test.result, test.id, test.description, "#", test.directive, test.comment)
-        pprint.pprint(test.yaml_buffer)
+        print test.result, test.id, test.description, "#", test.directive, test.comment
+        pprint.pprint(test._yaml_buffer)
         pprint.pprint(test.yaml)
