@@ -61,7 +61,7 @@ class Test(object):
             self.directive = directive
         self.comment = comment
         self.yaml = {}
-        self.yaml_buffer = []
+        self._yaml_buffer = []
         self.diagnostics = []
 
 
@@ -92,11 +92,11 @@ class TAP13(object):
 
             if in_yaml:
                 if RE_YAMLISH_END.match(line):
-                    self.tests[-1].yaml_buffer.append(line.strip())
+                    self.tests[-1]._yaml_buffer.append(line.strip())
                     in_yaml = False
-                    self.tests[-1].yaml = yamlish.load(self.tests[-1].yaml_buffer)
+                    self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
                 else:
-                    self.tests[-1].yaml_buffer.append(line.rstrip())
+                    self.tests[-1]._yaml_buffer.append(line.rstrip())
                 continue
 
             line = line.strip()
@@ -106,7 +106,7 @@ class TAP13(object):
                     self.tests[-1].diagnostics.append(line)
                     continue
                 if RE_YAMLISH_START.match(line):
-                    self.tests[-1].yaml_buffer = [line.strip()]
+                    self.tests[-1]._yaml_buffer = [line.strip()]
                     in_yaml = True
                     continue
 
@@ -218,5 +218,5 @@ if __name__ == "__main__":
 
     for test in t.tests:
         print(test.result, test.id, test.description, "#", test.directive, test.comment)
-        pprint.pprint(test.yaml_buffer)
+        pprint.pprint(test._yaml_buffer)
         pprint.pprint(test.yaml)
