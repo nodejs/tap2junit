@@ -1,18 +1,18 @@
-# Copyright 2013, Red Hat, Inc.
+from __future__ import print_function
+
+# Copyright 2019, Red Hat, Inc.
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 # Author: Josef Skladanka <jskladan@redhat.com>
 
@@ -39,10 +39,7 @@ RE_PLAN = re.compile(
     r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$"
 )
 RE_TEST_LINE = re.compile(
-    (
-        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
-        r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
-    ),
+    r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$",
     re.IGNORECASE,
 )
 RE_EXPLANATION = re.compile(r"^\s*#\s*(?P<explanation>.+)?\s*$")
@@ -60,8 +57,8 @@ class Test(object):
         except AttributeError:
             self.directive = directive
         self.comment = comment
-        self.yaml = {}
-        self._yaml_buffer = []
+        self.yaml = None
+        self._yaml_buffer = None
         self.diagnostics = []
 
 
@@ -79,7 +76,6 @@ class TAP13(object):
         in_test = False
         in_yaml = False
         for line in source:
-
             if not seek_version and RE_VERSION.match(line):
                 # refack: breaking TAP13 spec, to allow multiple TAP headers
                 seek_version = True
@@ -128,7 +124,7 @@ class TAP13(object):
                     seek_plan = False
 
                     # Stop processing if tests were found before the plan
-                    #    if plan is at the end, it must be last line -> stop processing
+                    #    if plan is at the end, it must be the last line -> stop processing
                     if self.__tests_counter > 0:
                         break
 
@@ -142,8 +138,8 @@ class TAP13(object):
                     t_attrs["id"] = int(t_attrs["id"])
                     if t_attrs["id"] < self.__tests_counter:
                         raise ValueError("Descending test id on line: %r" % line)
-                    # according to TAP13 specs, missing tests must be handled as
-                    # 'not ok'.  Here we add the missing tests in sequence
+                    # according to TAP13 specs, missing tests must be handled as 'not ok'
+                    # here we add the missing tests in sequence
                     while t_attrs["id"] > self.__tests_counter:
                         self.tests.append(
                             Test(
