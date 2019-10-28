@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 # Copyright 2019, Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +37,10 @@ RE_PLAN = re.compile(
     r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$"
 )
 RE_TEST_LINE = re.compile(
-    r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$",
+    (
+        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
+        r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
+    ),
     re.IGNORECASE,
 )
 RE_EXPLANATION = re.compile(r"^\s*#\s*(?P<explanation>.+)?\s*$")
@@ -124,7 +125,7 @@ class TAP13(object):
                     seek_plan = False
 
                     # Stop processing if tests were found before the plan
-                    #    if plan is at the end, it must be the last line -> stop processing
+                    #    if plan is at the end, it must be last line -> stop processing
                     if self.__tests_counter > 0:
                         break
 
@@ -138,8 +139,8 @@ class TAP13(object):
                     t_attrs["id"] = int(t_attrs["id"])
                     if t_attrs["id"] < self.__tests_counter:
                         raise ValueError("Descending test id on line: %r" % line)
-                    # according to TAP13 specs, missing tests must be handled as 'not ok'
-                    # here we add the missing tests in sequence
+                    # according to TAP13 specs, missing tests must be handled as
+                    # 'not ok' so here we add the missing tests in sequence
                     while t_attrs["id"] > self.__tests_counter:
                         self.tests.append(
                             Test(
@@ -173,7 +174,7 @@ class TAP13(object):
 
 
 if __name__ == "__main__":
-    input = """
+    text = """
     TAP version 13
     ok 1 - Input file opened
     not ok 2 - First line of the input valid
@@ -208,7 +209,7 @@ if __name__ == "__main__":
     1..6
 """
     t = TAP13()
-    t.parse(input)
+    t.parse(text)
 
     import pprint
 
