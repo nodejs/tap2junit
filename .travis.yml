@@ -9,9 +9,12 @@ env:
   - FILENAME=test
   - FILENAME=test2
   - FILENAME=test3
-install: pip install flake8 junit-xml yamlish
+install: pip install flake8 junit-xml pypistats yamlish
 before_script: flake8 . --max-line-length=88
 script:
   - python tap2junit/tap13.py
   - python -m tap2junit -i test/fixtures/${FILENAME}.tap -o test/output/${FILENAME}.xml
   - cat test/output/${FILENAME}.xml
+  - pypistats recent schema
+  - pypistats python_major schema --last-month
+  - pypistats python_minor schema --last-month
