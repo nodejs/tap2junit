@@ -21,6 +21,6 @@ jobs:
       - run: |
           for FILENAME in "test-eslint1 test-eslint2 test-eslint3 test test2 test3"; do
             python tap2junit/tap13.py
-            python -m tap2junit -i test/fixtures/$FILENAME.tap -o test/output/$FILENAME.xml
-            cat test/output/$FILENAME.xml
+            python -m tap2junit -i "test/fixtures/${FILENAME}.tap" -o "test/output/${FILENAME}.xml"
+            cat "test/output/${FILENAME}.xml"
           done
