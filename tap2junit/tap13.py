@@ -14,23 +14,11 @@
 #
 # Author: Josef Skladanka <jskladan@redhat.com>
 
-from __future__ import print_function
 
+import io
 import re
 
 import yamlish
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-
-try:
-    basestring
-except NameError:
-    basestring = str
-
 
 RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
 RE_PLAN = re.compile(
@@ -48,7 +36,7 @@ RE_YAMLISH_START = re.compile(r"^\s*---.*$")
 RE_YAMLISH_END = re.compile(r"^\s*\.\.\.\s*$")
 
 
-class Test(object):
+class Test:
     def __init__(self, result, id, description=None, directive=None, comment=None):
         self.result = result
         self.id = id
@@ -63,7 +51,7 @@ class Test(object):
         self.diagnostics = []
 
 
-class TAP13(object):
+class TAP13:
     def __init__(self):
         self.tests = []
         self.__tests_counter = 0
@@ -167,8 +155,8 @@ class TAP13(object):
                 )
 
     def parse(self, source):
-        if isinstance(source, basestring):
-            self._parse(StringIO(source))
+        if isinstance(source, str):
+            self._parse(io.StringIO(source))
         elif hasattr(source, "__iter__"):
             self._parse(source)
 

@@ -21,7 +21,7 @@ def map_yaml_to_junit(test):
         err_code = yaml.get("exitcode", 0)
         err_severity = yaml.get("severity", "")
         err_output = yaml.get("stack", "")
-        error_message = "{} ({})".format(err_severity, err_code)
+        error_message = f"{err_severity} ({err_code})"
         if err_code < 0 or err_severity == "crashed":
             t.add_error_info(error_message, err_output, err_code)
         else:
