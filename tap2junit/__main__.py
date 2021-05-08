@@ -26,7 +26,7 @@ def map_yaml_to_junit(test):
             t.add_error_info(error_message, err_output, err_code)
         else:
             t.add_failure_info(error_message, err_output, err_code)
-
+        t.stderr = test.diagnostics
     return t
 
 
