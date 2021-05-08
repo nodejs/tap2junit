@@ -157,9 +157,14 @@ class TAP13:
 
         if len(self.tests) != self.tests_planned:
             for i in range(len(self.tests), self.tests_planned):
-                self.tests.append(
-                    Test("not ok", i + 1, comment="DIAG: Test %s not present")
+                t = Test(
+                    "not ok",
+                    i + 1,
+                    description="Test %s missing" % (i + 1),
+                    comment="DIAG: Test %s not present" % (i + 1),
                 )
+                t.yaml = {"severity": "missing", "exitcode": -1}
+                self.tests.append(t)
 
     def parse(self, source):
         if isinstance(source, str):

@@ -9,6 +9,7 @@ env:
   - FILENAME=test
   - FILENAME=test2
   - FILENAME=test3
+  - FILENAME=test-bailout
 install: pip install flake8 junit-xml yamlish
 before_script: flake8 . --max-line-length=88
 script:
