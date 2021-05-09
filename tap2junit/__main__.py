@@ -31,17 +31,19 @@ def map_yaml_to_junit(test):
     return t
 
 
-def parse(name, data):
+def parse(name, data, package=None):
     tap_parser = tap13()
     tap_parser.parse(data)
     junit_tests = [map_yaml_to_junit(t) for t in tap_parser.tests]
-    return TestSuite(name, junit_tests, platform.node())
+    return TestSuite(
+        name, test_cases=junit_tests, hostname=platform.node(), package=package
+    )
 
 
-def convert(in_file, out_file, pretty=True, name=None):
+def convert(in_file, out_file, pretty=True, name=None, package=None):
     input_file = os.path.splitext(in_file.name)[0]
     data = in_file.read()
-    result = parse(name or input_file, data)
+    result = parse(name or input_file, data, package)
     TestSuite.to_file(out_file, [result], prettyprint=pretty, encoding="utf-8")
 
 
@@ -65,9 +67,15 @@ def main():
         "--compact", "-c", action="store_true", help="do not prettify the xml output"
     )
     arg_parser.add_argument("--name", "-n", help="override test suite name")
-
+    arg_parser.add_argument("--package", "-p", help="set package for test suite")
     args = arg_parser.parse_args()
-    convert(args.input, args.output, pretty=not args.compact, name=args.name)
+    convert(
+        args.input,
+        args.output,
+        pretty=not args.compact,
+        name=args.name,
+        package=args.package,
+    )
 
 
 if __name__ == "__main__":
