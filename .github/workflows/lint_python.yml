@@ -11,7 +11,7 @@ jobs:
       - run: black --check .
       - run: codespell --quiet-level=2 --skip="*.tap"  # --ignore-words-list="" 
       - run: flake8 . --max-line-length=88 --show-source --statistics
-      - run: isort -rc --check-only --profile black . || true
+      - run: isort --check-only --profile black . || true
       - run: pip install junit_xml yamlish
       - run: mypy --ignore-missing-imports .
       - run: pytest . || true
