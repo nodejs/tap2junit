@@ -26,7 +26,8 @@ RE_PLAN = re.compile(
 )
 RE_TEST_LINE = re.compile(
     (
-        r"^\s*(?P<result>(not\s+)?ok)\s*(?P<id>\d+)?\s*(?P<description>[^#]+)"
+        r"^\s*(?P<result>(not\s+)?ok|Bail out\!)\s*"
+        r"(?P<id>\d+)?\s*(?P<description>[^#]+)"
         r"?\s*(#\s*(?P<directive>TODO|SKIP)?\s*(?P<comment>.+)?)?\s*$"
     ),
     re.IGNORECASE,
@@ -140,6 +141,12 @@ class TAP13:
                         )
                         self.__tests_counter += 1
                     t = Test(**t_attrs)
+                    if t.result == "Bail out!":
+                        t.result = "not ok"
+                        # according to TAP13 specs, everything after this is an
+                        # explanation of why testing must be stopped
+                        t.diagnostics = t.diagnostics or t.description
+                        t.description = "Bail out for Test %s" % self.__tests_counter
                     self.tests.append(t)
                     in_test = True
                     continue
@@ -150,9 +157,14 @@ class TAP13:
 
         if len(self.tests) != self.tests_planned:
             for i in range(len(self.tests), self.tests_planned):
-                self.tests.append(
-                    Test("not ok", i + 1, comment="DIAG: Test %s not present")
+                t = Test(
+                    "not ok",
+                    i + 1,
+                    description="Test %s missing" % (i + 1),
+                    comment="DIAG: Test %s not present" % (i + 1),
                 )
+                t.yaml = {"severity": "missing", "exitcode": -1}
+                self.tests.append(t)
 
     def parse(self, source):
         if isinstance(source, str):

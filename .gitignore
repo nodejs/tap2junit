@@ -3,5 +3,7 @@
 # virtualenv
 /.venv
 
+.mypy_cache
+
 dist
 build

@@ -1,0 +1,8 @@
+TAP version 13
+1..5
+ok 1 /MyTest/1
+ok 2 /MyTest/2
+# My test 2 comments
+ok 3 /MyTest/3
+Bail out! Fatal condition met which prevent to continue
+

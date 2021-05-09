@@ -26,7 +26,7 @@ def map_yaml_to_junit(test):
             t.add_error_info(error_message, err_output, err_code)
         else:
             t.add_failure_info(error_message, err_output, err_code)
-
+        t.stderr = test.diagnostics
     return t
 
 
@@ -37,11 +37,11 @@ def parse(name, data):
     return TestSuite(name, junit_tests, platform.node())
 
 
-def convert(in_file, out_file):
+def convert(in_file, out_file, pretty=True):
     input_file = os.path.splitext(in_file.name)[0]
     data = in_file.read()
     result = parse(input_file, data)
-    TestSuite.to_file(out_file, [result], prettyprint=True, encoding="utf-8")
+    TestSuite.to_file(out_file, [result], prettyprint=pretty, encoding="utf-8")
 
 
 def main():
@@ -60,8 +60,11 @@ def main():
         help="output file name",
         required=True,
     )
+    arg_parser.add_argument(
+        "--compact", "-c", action="store_true", help="do not prettify the xml output"
+    )
     args = arg_parser.parse_args()
-    convert(args.input, args.output)
+    convert(args.input, args.output, pretty=not args.compact)
 
 
 if __name__ == "__main__":

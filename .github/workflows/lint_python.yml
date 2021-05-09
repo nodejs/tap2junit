@@ -11,7 +11,7 @@ jobs:
       - run: black --check .
       - run: codespell --quiet-level=2 --skip="*.tap"  # --ignore-words-list="" 
       - run: flake8 . --max-line-length=88 --show-source --statistics
-      - run: isort --check-only --profile black . || true
+      - run: isort -rc --check-only --profile black . || true
       - run: pip install junit_xml yamlish
       - run: mypy --ignore-missing-imports .
       - run: pytest . || true
@@ -19,7 +19,7 @@ jobs:
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py
       - run: safety check
       - run: |
-          for FILENAME in test-eslint1 test-eslint2 test-eslint3 test test2 test3; do
+          for FILENAME in test-eslint1 test-eslint2 test-eslint3 test test2 test3 test-bailout; do
             echo "Testing ${FILENAME}..."
             python tap2junit/tap13.py
             python -m tap2junit -i "test/fixtures/${FILENAME}.tap" -o "test/output/${FILENAME}.xml"
