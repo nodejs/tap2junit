@@ -3,6 +3,7 @@ import os
 import platform
 
 from junit_xml import TestCase, TestSuite
+
 from tap2junit.tap13 import TAP13 as tap13
 
 
