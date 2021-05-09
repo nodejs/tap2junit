@@ -38,10 +38,10 @@ def parse(name, data):
     return TestSuite(name, junit_tests, platform.node())
 
 
-def convert(in_file, out_file, pretty=True):
+def convert(in_file, out_file, pretty=True, name=None):
     input_file = os.path.splitext(in_file.name)[0]
     data = in_file.read()
-    result = parse(input_file, data)
+    result = parse(name or input_file, data)
     TestSuite.to_file(out_file, [result], prettyprint=pretty, encoding="utf-8")
 
 
@@ -64,8 +64,10 @@ def main():
     arg_parser.add_argument(
         "--compact", "-c", action="store_true", help="do not prettify the xml output"
     )
+    arg_parser.add_argument("--name", "-n", help="override test suite name")
+
     args = arg_parser.parse_args()
-    convert(args.input, args.output, pretty=not args.compact)
+    convert(args.input, args.output, pretty=not args.compact, name=args.name)
 
 
 if __name__ == "__main__":
