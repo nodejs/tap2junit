@@ -7,11 +7,32 @@ from junit_xml import TestCase, TestSuite
 from tap2junit.tap13 import TAP13 as tap13
 
 
+def extract_test_info_from_description(description):
+    # If test description is path-like (contains /), consider the last
+    # token to be the test name and convert the dirname to classname.
+    # The test description can also have already a class name style
+    # (module serapated by '.') so do the same for this case
+    if description and "/" in description:
+        sanitize = os.path.normpath(description)
+        (test_class, test_name) = os.path.split(sanitize)
+        # Remove possible heading slash and replace / by .
+        test_class = test_class.lstrip("/").replace("/", ".")
+    elif description and "." in description:
+        # Remove possible heading slash and replace / by .
+        test_name = description.split(".")[-1]
+        test_class = ".".join(description.split(".")[0:-1])
+    else:
+        test_name = description
+        test_class = None
+    return (test_class, test_name)
+
+
 def map_yaml_to_junit(test):
     yaml = test.yaml or {}
     # Even though the name is `duration_ms` the value is in seconds.
     elapsed_sec = yaml.get("duration_ms", None)
-    t = TestCase(test.description, classname=None, elapsed_sec=elapsed_sec)
+    (test_class, test_name) = extract_test_info_from_description(test.description)
+    t = TestCase(test_name, classname=test_class, elapsed_sec=elapsed_sec)
     if test.result == "ok":
         if test.directive in ("SKIP", "TODO"):
             t.add_skipped_info(test.comment)
