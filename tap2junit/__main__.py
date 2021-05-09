@@ -2,6 +2,7 @@ import argparse
 import os
 import platform
 
+import yamlish
 from junit_xml import TestCase, TestSuite
 
 from tap2junit.tap13 import TAP13 as tap13
@@ -40,10 +41,11 @@ def map_yaml_to_junit(test):
             t.stdout = test.comment
 
     elif test.result == "not ok":
+        raw_yaml = f"\n{yamlish.dumps(yaml)}" if yaml else ""
         err_code = yaml.get("exitcode", 0)
         err_severity = yaml.get("severity", "")
-        err_output = yaml.get("stack", "")
-        error_message = f"{err_severity} ({err_code})"
+        err_output = yaml.get("stack", "") or raw_yaml
+        error_message = yaml.get("message", "") or f"{err_severity} ({err_code})"
         if err_code < 0 or err_severity == "crashed":
             t.add_error_info(error_message, err_output, err_code)
         else:
