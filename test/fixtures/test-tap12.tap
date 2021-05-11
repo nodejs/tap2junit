@@ -1,0 +1,7 @@
+1..5
+ok 1 /MyTest/1
+ok 2 /MyTest/2
+# My test 2 comments
+ok 3 /MyTest/3
+not ok 4 /MyTest/3
+ok /MyTest/4
