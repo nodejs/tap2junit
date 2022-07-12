@@ -82,7 +82,10 @@ class TAP13:
 
             if in_yaml:
                 indentation = len(line) - len(line.lstrip())
-                if in_yaml_block and indentation > self.tests[-1]._yaml_block_indentation:
+                if (
+                    in_yaml_block
+                    and indentation > self.tests[-1]._yaml_block_indentation
+                ):
                     continue
                 elif RE_YAML_BLOCK.match(line):
                     self.tests[-1]._yaml_block_indentation = indentation
