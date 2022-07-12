@@ -35,6 +35,7 @@ RE_TEST_LINE = re.compile(
 RE_EXPLANATION = re.compile(r"^\s*#\s*(?P<explanation>.+)?\s*$")
 RE_YAMLISH_START = re.compile(r"^\s*---.*$")
 RE_YAMLISH_END = re.compile(r"^\s*\.\.\.\s*$")
+RE_YAML_BLOCK = re.compile(r"^.*:\s*[|>][+-]?\s*$")
 
 
 class Test:
@@ -49,6 +50,7 @@ class Test:
         self.comment = comment
         self.yaml = None
         self._yaml_buffer = None
+        self._yaml_block_indentation = None
         self.diagnostics = []
 
 
@@ -65,21 +67,33 @@ class TAP13:
 
         in_test = False
         in_yaml = False
+        in_yaml_block = False
         for line in source:
-            if not seek_version and RE_VERSION.match(line):
+            if not seek_version and not in_yaml and RE_VERSION.match(line):
                 # refack: breaking TAP13 spec, to allow multiple TAP headers
                 seek_version = True
                 seek_plan = False
                 seek_test = False
                 in_test = False
                 in_yaml = False
+                in_yaml_block = False
                 self.__tests_counter = 0
                 # raise ValueError("Bad TAP format, multiple TAP headers")
 
             if in_yaml:
-                if RE_YAMLISH_END.match(line):
+                indentation = len(line) - len(line.lstrip())
+                if (
+                    in_yaml_block
+                    and indentation > self.tests[-1]._yaml_block_indentation
+                ):
+                    continue
+                elif RE_YAML_BLOCK.match(line):
+                    self.tests[-1]._yaml_block_indentation = indentation
+                    in_yaml_block = True
+                elif RE_YAMLISH_END.match(line):
                     self.tests[-1]._yaml_buffer.append(line.strip())
                     in_yaml = False
+                    in_yaml_block = False
                     self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
                 else:
                     self.tests[-1]._yaml_buffer.append(line.rstrip())
@@ -94,6 +108,7 @@ class TAP13:
                 if RE_YAMLISH_START.match(line):
                     self.tests[-1]._yaml_buffer = [line.strip()]
                     in_yaml = True
+                    in_yaml_block = False
                     continue
 
             # this is "beginning" of the parsing, skip all lines until
