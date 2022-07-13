@@ -12,7 +12,7 @@ jobs:
       - run: bandit --recursive .
       - run: black --check .
       - run: codespell --skip="*.tap"  # --ignore-words-list="" 
-      - run: flake8 . --max-complexity=10 --max-line-length=88 --show-source --statistics
+      - run: flake8 . --max-complexity=24 --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black .
       - run: pip install junit_xml yamlish
       - run: mypy --ignore-missing-imports .
