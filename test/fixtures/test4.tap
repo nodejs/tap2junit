@@ -1,0 +1,12 @@
+TAP version 13
+1..9
+ok 1 myplugin.module1.test1
+ok 2 myplugin.module1.test2
+ok 3 myplugin.module2.test1
+ok 4 myplugin.module2.test2
+ok 5 myplugin.module2.testSub.test1
+ok 6 myplugin.module2.testSub.test2
+ok 7 myplugin.test1
+not ok 8 myplugin.test2
+ok 9 myplugin.test3
+
