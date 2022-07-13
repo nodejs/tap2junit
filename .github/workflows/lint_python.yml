@@ -4,13 +4,15 @@ jobs:
   lint_python:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
       - run: bandit --recursive .
       - run: black --check .
-      - run: codespell --quiet-level=2 --skip="*.tap"  # --ignore-words-list="" 
-      - run: flake8 . --max-line-length=88 --show-source --statistics
+      - run: codespell --skip="*.tap"  # --ignore-words-list="" 
+      - run: flake8 . --max-complexity=24 --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black .
       - run: pip install junit_xml yamlish
       - run: mypy --ignore-missing-imports .
