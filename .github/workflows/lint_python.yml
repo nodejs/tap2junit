@@ -9,21 +9,14 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
-      - run: bandit --recursive .
+      - run: bandit --configfile bandit.yaml --recursive .
       - run: black --check .
-      - run: codespell --skip="*.tap"  # --ignore-words-list="" 
+      - run: codespell --skip="*.tap" --skip "*.xml"  # --ignore-words-list="" 
       - run: flake8 . --max-complexity=24 --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black .
-      - run: pip install junit_xml yamlish
+      - run: pip install junit_xml yamlish pytest-clarity
       - run: mypy --ignore-missing-imports .
-      - run: pytest . || true
-      - run: pytest --doctest-modules . || true
+      - run: pytest -vv .
+      - run: pytest --doctest-modules .
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py
       - run: safety check
-      - run: |
-          for FILENAME in test-eslint1 test-eslint2 test-eslint3 test test2 test3 test-bailout; do
-            echo "Testing ${FILENAME}..."
-            python tap2junit/tap13.py
-            python -m tap2junit -i "test/fixtures/${FILENAME}.tap" -o "test/output/${FILENAME}.xml"
-            cat "test/output/${FILENAME}.xml"
-          done

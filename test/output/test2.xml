@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="0" failures="1" tests="1" time="1.711">
+	<testsuite disabled="0" errors="0" failures="1" name="test/fixtures/test2" skipped="0" tests="1" time="1.711" hostname="{HOSTNAME}">
+		<testcase name="test-accessor-properties" time="1.711000" classname="parallel">
+			<failure type="1" message="fail (1)">
+---
+duration_ms: 1.711
+exitcode: 1
+severity: fail
+...
+</failure>
+		</testcase>
+	</testsuite>
+</testsuites>
