@@ -1,4 +1,4 @@
-A utility that converts [TAP version 13](https://testanything.org/) to [JUnit](https://junit.org/junit5/). That's it.
+A utility that converts [TAP version 12 and 13](https://testanything.org/) to [JUnit](https://junit.org/junit5/). That's it.
 
 Upstream is currently unmaintained at https://bitbucket.org/fedoraqa/pytap13/src/develop/
 

@@ -20,7 +20,7 @@ import re
 
 import yamlish
 
-RE_VERSION = re.compile(r"^\s*TAP version 13\s*$")
+RE_VERSION = re.compile(r"^\s*TAP version (?P<version>.*)$")
 RE_PLAN = re.compile(
     r"^\s*(?P<start>\d+)\.\.(?P<end>\d+)\s*(#\s*(?P<explanation>.*))?\s*$"
 )
@@ -60,6 +60,23 @@ class TAP13:
         self.__tests_counter = 0
         self.tests_planned = None
 
+    def _parse_yaml(self, line, in_yaml, in_yaml_block):
+        indentation = len(line) - len(line.lstrip())
+        if in_yaml_block and indentation > self.tests[-1]._yaml_block_indentation:
+            return in_yaml, in_yaml_block
+        elif RE_YAML_BLOCK.match(line):
+            self.tests[-1]._yaml_block_indentation = indentation
+            in_yaml_block = True
+        elif RE_YAMLISH_END.match(line):
+            self.tests[-1]._yaml_buffer.append(line.strip())
+            in_yaml = False
+            in_yaml_block = False
+            self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
+        else:
+            self.tests[-1]._yaml_buffer.append(line.rstrip())
+
+        return in_yaml, in_yaml_block
+
     def _parse(self, source):
         seek_version = True
         seek_plan = False
@@ -68,8 +85,29 @@ class TAP13:
         in_test = False
         in_yaml = False
         in_yaml_block = False
+        version12 = False
+        # see https://testanything.org/tap-version-13-specification.html
+        # To indicate that this is TAP13 the first line must be
+        # 'TAP version 13'
+        non_empty_lines = [
+            line for line in source.getvalue().splitlines() if line.strip()
+        ]
+        match = RE_VERSION.match(non_empty_lines[0])
+        if match:
+            # It is an error if version is anything below 13 (so not an int is an error)
+            version = int(match.groupdict()["version"])
+            if version < 13:
+                raise ValueError("Version specified is less than 13")
+        else:
+            # No version, so it is 12: https://testanything.org/tap-specification.html
+            version12 = True
+            seek_version = False
+            seek_plan = True
+            seek_test = True
+            self.__tests_counter = 0
+
         for line in source:
-            if not seek_version and not in_yaml and RE_VERSION.match(line):
+            if not version12 and not seek_version and RE_VERSION.match(line):
                 # refack: breaking TAP13 spec, to allow multiple TAP headers
                 seek_version = True
                 seek_plan = False
@@ -81,22 +119,7 @@ class TAP13:
                 # raise ValueError("Bad TAP format, multiple TAP headers")
 
             if in_yaml:
-                indentation = len(line) - len(line.lstrip())
-                if (
-                    in_yaml_block
-                    and indentation > self.tests[-1]._yaml_block_indentation
-                ):
-                    continue
-                elif RE_YAML_BLOCK.match(line):
-                    self.tests[-1]._yaml_block_indentation = indentation
-                    in_yaml_block = True
-                elif RE_YAMLISH_END.match(line):
-                    self.tests[-1]._yaml_buffer.append(line.strip())
-                    in_yaml = False
-                    in_yaml_block = False
-                    self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
-                else:
-                    self.tests[-1]._yaml_buffer.append(line.rstrip())
+                in_yaml, in_yaml_block = self._parse_yaml(line, in_yaml, in_yaml_block)
                 continue
 
             line = line.strip()
@@ -106,14 +129,19 @@ class TAP13:
                     self.tests[-1].diagnostics.append(line)
                     continue
                 if RE_YAMLISH_START.match(line):
+                    if version12:
+                        raise ValueError(
+                            "Bad TAP format, yaml block detected but no "
+                            "TAP version 13 line"
+                        )
                     self.tests[-1]._yaml_buffer = [line.strip()]
                     in_yaml = True
                     in_yaml_block = False
                     continue
 
-            # this is "beginning" of the parsing, skip all lines until
-            # version is found
-            if seek_version:
+            # this is "beginning" of the parsing for TAP version 13
+            # skip all lines until version is found
+            if not version12 and seek_version:
                 if RE_VERSION.match(line):
                     seek_version = False
                     seek_plan = True
@@ -122,10 +150,10 @@ class TAP13:
                     continue
 
             if seek_plan:
-                m = RE_PLAN.match(line)
-                if m:
-                    d = m.groupdict()
-                    self.tests_planned = int(d.get("end", 0))
+                match = RE_PLAN.match(line)
+                if match:
+                    fields = match.groupdict()
+                    self.tests_planned = int(fields.get("end", 0))
                     seek_plan = False
 
                     # Stop processing if tests were found before the plan
@@ -134,10 +162,10 @@ class TAP13:
                         break
 
             if seek_test:
-                m = RE_TEST_LINE.match(line)
-                if m:
+                match = RE_TEST_LINE.match(line)
+                if match:
                     self.__tests_counter += 1
-                    t_attrs = m.groupdict()
+                    t_attrs = match.groupdict()
                     if t_attrs["id"] is None:
                         t_attrs["id"] = self.__tests_counter
                     t_attrs["id"] = int(t_attrs["id"])
@@ -178,6 +206,8 @@ class TAP13:
                     description="Test %s missing" % (i + 1),
                     comment="DIAG: Test %s not present" % (i + 1),
                 )
+                # Even for version 12 file which doesn't specify YAML we use
+                # this field to ease thing for the caller
                 t.yaml = {"severity": "missing", "exitcode": -1}
                 self.tests.append(t)
 
