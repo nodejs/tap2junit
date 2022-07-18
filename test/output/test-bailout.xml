@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="1" failures="1" tests="5" time="0.0">
+	<testsuite disabled="0" errors="1" failures="1" name="test/fixtures/test-bailout" skipped="0" tests="5" time="0" hostname="{HOSTNAME}">
+		<testcase name="1" classname="MyTest"/>
+		<testcase name="2" classname="MyTest"/>
+		<testcase name="3" classname="MyTest"/>
+		<testcase name="Bail out for Test 4">
+			<failure type="failure" message=" (0)"/>
+			<system-err>Fatal condition met which prevent to continue</system-err>
+		</testcase>
+		<testcase name="Test 5 missing">
+			<error type="-1" message="missing (-1)">
+---
+exitcode: -1
+severity: missing
+...
+</error>
+		</testcase>
+	</testsuite>
+</testsuites>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="0" failures="1" tests="5" time="0.0">
+	<testsuite disabled="0" errors="0" failures="1" name="test/fixtures/test-tap12" skipped="0" tests="5" time="0" hostname="{HOSTNAME}">
+		<testcase name="1" classname="MyTest"/>
+		<testcase name="2" classname="MyTest"/>
+		<testcase name="3" classname="MyTest"/>
+		<testcase name="3" classname="MyTest">
+			<failure type="failure" message=" (0)"/>
+		</testcase>
+		<testcase name="4" classname="MyTest"/>
+	</testsuite>
+</testsuites>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="0" failures="1" tests="9" time="0.0">
+	<testsuite disabled="0" errors="0" failures="1" name="test/fixtures/test4" skipped="0" tests="9" time="0" hostname="{HOSTNAME}">
+		<testcase name="test1" classname="myplugin.module1"/>
+		<testcase name="test2" classname="myplugin.module1"/>
+		<testcase name="test1" classname="myplugin.module2"/>
+		<testcase name="test2" classname="myplugin.module2"/>
+		<testcase name="test1" classname="myplugin.module2.testSub"/>
+		<testcase name="test2" classname="myplugin.module2.testSub"/>
+		<testcase name="test1" classname="myplugin"/>
+		<testcase name="test2" classname="myplugin">
+			<failure type="failure" message=" (0)"/>
+		</testcase>
+		<testcase name="test3" classname="myplugin"/>
+	</testsuite>
+</testsuites>

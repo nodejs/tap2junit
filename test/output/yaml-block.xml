@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="0" failures="1" tests="1" time="4.758">
+	<testsuite disabled="0" errors="0" failures="1" name="test/fixtures/yaml-block" skipped="0" tests="1" time="4.758" hostname="{HOSTNAME}">
+		<testcase name="test_runner_describe_it" time="4.758000" classname="message">
+			<failure type="1" message="fail (1)">
+---
+duration_ms: 4.758
+exitcode: 1
+severity: fail
+...
+</failure>
+		</testcase>
+	</testsuite>
+</testsuites>
