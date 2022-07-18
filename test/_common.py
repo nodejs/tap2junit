@@ -3,7 +3,7 @@ import platform
 replacements = dict([(platform.node(), "{HOSTNAME}")])
 
 
-def normalize_output(str):
+def normalize_output(s):
     for replacement in replacements:
-        str = str.replace(replacement, replacements[replacement])
-    return str
+        s = s.replace(replacement, replacements[replacement])
+    return s
