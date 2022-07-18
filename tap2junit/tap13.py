@@ -107,7 +107,12 @@ class TAP13:
             self.__tests_counter = 0
 
         for line in source:
-            if not version12 and not seek_version and RE_VERSION.match(line):
+            if (
+                not version12
+                and not seek_version
+                and not in_yaml
+                and RE_VERSION.match(line)
+            ):
                 # refack: breaking TAP13 spec, to allow multiple TAP headers
                 seek_version = True
                 seek_plan = False
