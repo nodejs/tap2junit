@@ -60,6 +60,23 @@ class TAP13:
         self.__tests_counter = 0
         self.tests_planned = None
 
+    def _parse_yaml(self, line, in_yaml, in_yaml_block):
+        indentation = len(line) - len(line.lstrip())
+        if in_yaml_block and indentation > self.tests[-1]._yaml_block_indentation:
+            return in_yaml, in_yaml_block
+        elif RE_YAML_BLOCK.match(line):
+            self.tests[-1]._yaml_block_indentation = indentation
+            in_yaml_block = True
+        elif RE_YAMLISH_END.match(line):
+            self.tests[-1]._yaml_buffer.append(line.strip())
+            in_yaml = False
+            in_yaml_block = False
+            self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
+        else:
+            self.tests[-1]._yaml_buffer.append(line.rstrip())
+
+        return in_yaml, in_yaml_block
+
     def _parse(self, source):
         seek_version = True
         seek_plan = False
@@ -102,22 +119,7 @@ class TAP13:
                 # raise ValueError("Bad TAP format, multiple TAP headers")
 
             if in_yaml:
-                indentation = len(line) - len(line.lstrip())
-                if (
-                    in_yaml_block
-                    and indentation > self.tests[-1]._yaml_block_indentation
-                ):
-                    continue
-                elif RE_YAML_BLOCK.match(line):
-                    self.tests[-1]._yaml_block_indentation = indentation
-                    in_yaml_block = True
-                elif RE_YAMLISH_END.match(line):
-                    self.tests[-1]._yaml_buffer.append(line.strip())
-                    in_yaml = False
-                    in_yaml_block = False
-                    self.tests[-1].yaml = yamlish.load(self.tests[-1]._yaml_buffer)
-                else:
-                    self.tests[-1]._yaml_buffer.append(line.rstrip())
+                in_yaml, in_yaml_block = self._parse_yaml(line, in_yaml, in_yaml_block)
                 continue
 
             line = line.strip()
