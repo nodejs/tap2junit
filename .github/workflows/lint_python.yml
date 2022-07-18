@@ -19,4 +19,4 @@ jobs:
       - run: pytest -vv .
       - run: pytest --doctest-modules .
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py
-      - run: safety checkne
+      - run: safety check
