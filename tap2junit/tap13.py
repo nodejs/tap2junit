@@ -57,7 +57,8 @@ class Test:
 class TAP13:
     def __init__(self):
         self.tests = []
-        self.__tests_counter = 0
+        self.__tests_counter = [0]
+        self._test_indentation = [0]
         self.tests_planned = None
 
     def _parse_yaml(self, line, in_yaml, in_yaml_block):
@@ -76,6 +77,14 @@ class TAP13:
             self.tests[-1]._yaml_buffer.append(line.rstrip())
 
         return in_yaml, in_yaml_block
+
+    def _handle_indentation(self, current_indentation):
+        if current_indentation > self._test_indentation[-1]:
+            self._test_indentation.append(current_indentation)
+            self.__tests_counter.append(0)
+        if current_indentation < self._test_indentation[-1]:
+            self._test_indentation.pop()
+            self.__tests_counter.pop()
 
     def _parse(self, source):
         seek_version = True
@@ -104,7 +113,8 @@ class TAP13:
             seek_version = False
             seek_plan = True
             seek_test = True
-            self.__tests_counter = 0
+            self.__tests_counter = [0]
+            self._test_indentation = [0]
 
         for line in source:
             if (
@@ -120,14 +130,16 @@ class TAP13:
                 in_test = False
                 in_yaml = False
                 in_yaml_block = False
-                self.__tests_counter = 0
+                self.__tests_counter = [0]
+                self._test_indentation = [0]
                 # raise ValueError("Bad TAP format, multiple TAP headers")
 
             if in_yaml:
                 in_yaml, in_yaml_block = self._parse_yaml(line, in_yaml, in_yaml_block)
                 continue
 
-            line = line.strip()
+            unstriped_line = line
+            line = unstriped_line.strip()
 
             if in_test:
                 if RE_EXPLANATION.match(line):
@@ -163,38 +175,41 @@ class TAP13:
 
                     # Stop processing if tests were found before the plan
                     #    if plan is at the end, it must be last line -> stop processing
-                    if self.__tests_counter > 0:
+                    if len(self.__tests_counter) == 1 and self.__tests_counter[0] > 0:
                         break
 
             if seek_test:
                 match = RE_TEST_LINE.match(line)
                 if match:
-                    self.__tests_counter += 1
+                    self._handle_indentation(len(unstriped_line) - len(line))
+                    self.__tests_counter[-1] += 1
                     t_attrs = match.groupdict()
                     if t_attrs["id"] is None:
-                        t_attrs["id"] = self.__tests_counter
+                        t_attrs["id"] = self.__tests_counter[-1]
                     t_attrs["id"] = int(t_attrs["id"])
-                    if t_attrs["id"] < self.__tests_counter:
+                    if t_attrs["id"] < self.__tests_counter[-1]:
                         raise ValueError("Descending test id on line: %r" % line)
                     # according to TAP13 specs, missing tests must be handled as
                     # 'not ok' so here we add the missing tests in sequence
-                    while t_attrs["id"] > self.__tests_counter:
+                    while t_attrs["id"] > self.__tests_counter[-1]:
                         self.tests.append(
                             Test(
                                 "not ok",
-                                self.__tests_counter,
+                                self.__tests_counter[-1],
                                 comment="DIAG: Test %s not present"
-                                % self.__tests_counter,
+                                % self.__tests_counter[-1],
                             )
                         )
-                        self.__tests_counter += 1
+                        self.__tests_counter[-1] += 1
                     t = Test(**t_attrs)
                     if t.result == "Bail out!":
                         t.result = "not ok"
                         # according to TAP13 specs, everything after this is an
                         # explanation of why testing must be stopped
                         t.diagnostics = t.diagnostics or t.description
-                        t.description = "Bail out for Test %s" % self.__tests_counter
+                        t.description = (
+                            "Bail out for Test %s" % self.__tests_counter[-1]
+                        )
                     self.tests.append(t)
                     in_test = True
                     continue
