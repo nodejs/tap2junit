@@ -30,8 +30,8 @@ def extract_test_info_from_description(description):
 
 def map_yaml_to_junit(test):
     yaml = test.yaml or {}
-    # Even though the name is `duration_ms` the value is in seconds.
-    elapsed_sec = yaml.get("duration_ms", None)
+    duration_ms = yaml.get("duration_ms", None)
+    elapsed_sec = duration_ms if duration_ms is None else (duration_ms / 1000)
     (test_class, test_name) = extract_test_info_from_description(test.description)
     t = TestCase(test_name, classname=test_class, elapsed_sec=elapsed_sec)
     if test.result == "ok":
