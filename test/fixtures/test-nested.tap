@@ -1,0 +1,50 @@
+TAP version 13
+# Subtest: parent
+    # Subtest: top level 1
+    ok 1 - top level 1
+      ---
+      duration_ms: 0.340575089
+      ...
+    # Subtest: top level 2
+    ok 2 - top level 2
+      ---
+      duration_ms: 0.30303944
+      ...
+    # Subtest: nested
+        # Subtest: nested 1
+        ok 1 - nested 1
+          ---
+          duration_ms: 2.367745206
+          ...
+        # Subtest: nested 2
+        not ok 2 - nested 2
+          ---
+          duration_ms: 2.332323873
+          failureType: 'cancelledByParent'
+          error: 'Promise resolution is still pending but the event loop has already resolved'
+          code: 'ERR_TEST_FAILURE'
+          stack: |-
+            process.emit (node:events:513:28)
+          ...
+        1..2
+    not ok 3 - nested
+      ---
+      duration_ms: 2.367870901
+      failureType: 'fail'
+      error: 'Promise resolution is still pending but the event loop has already resolved'
+      code: 'ERR_TEST_FAILURE'
+      stack: |-
+        process.emit (node:events:513:28)
+      ...
+    # Subtest: top level 4
+    ok 4 - top level 4
+      ---
+      duration_ms: 0.340575089
+      ...
+    1..4
+ok 1 - parent
+  ---
+  duration_ms: 2.489501484
+  ...
+1..1
+# tests 1
