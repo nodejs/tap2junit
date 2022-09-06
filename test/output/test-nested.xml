@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<testsuites disabled="0" errors="0" failures="2" tests="7" time="10.541631082">
-	<testsuite disabled="0" errors="0" failures="2" name="test/fixtures/test-nested" skipped="0" tests="7" time="10.541631082" hostname="{HOSTNAME}">
-		<testcase name="- top level 1" time="0.340575"/>
-		<testcase name="- top level 2" time="0.303039"/>
-		<testcase name="- nested 1" time="2.367745"/>
-		<testcase name="- nested 2" time="2.332324">
+<testsuites disabled="0" errors="0" failures="2" tests="7" time="0.010541631081999998">
+	<testsuite disabled="0" errors="0" failures="2" name="test/fixtures/test-nested" skipped="0" tests="7" time="0.010541631081999998" hostname="{HOSTNAME}">
+		<testcase name="- top level 1" time="0.000341"/>
+		<testcase name="- top level 2" time="0.000303"/>
+		<testcase name="- nested 1" time="0.002368"/>
+		<testcase name="- nested 2" time="0.002332">
 			<failure type="failure" message=" (0)">
 ---
 code: ERR_TEST_FAILURE
@@ -14,7 +14,7 @@ failureType: cancelledByParent
 ...
 </failure>
 		</testcase>
-		<testcase name="- nested" time="2.367871">
+		<testcase name="- nested" time="0.002368">
 			<failure type="failure" message=" (0)">
 ---
 code: ERR_TEST_FAILURE
@@ -25,7 +25,7 @@ failureType: fail
 </failure>
 			<system-err>['# Subtest: top level 4']</system-err>
 		</testcase>
-		<testcase name="- top level 4" time="0.340575"/>
-		<testcase name="- parent" time="2.489501"/>
+		<testcase name="- top level 4" time="0.000341"/>
+		<testcase name="- parent" time="0.002490"/>
 	</testsuite>
 </testsuites>
