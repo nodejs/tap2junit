@@ -8,14 +8,13 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety
-      - run: bandit --configfile bandit.yaml --recursive .
+      - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety junit_xml yamlish pytest-clarity
+      - run: bandit --configfile pyproject.toml --recursive .
       - run: black --check .
       - run: codespell --skip="*.tap" --skip "*.xml"  # --ignore-words-list="" 
       - run: flake8 . --max-complexity=24 --max-line-length=88 --show-source --statistics
-      - run: isort --check-only --profile black .
-      - run: pip install junit_xml yamlish pytest-clarity
-      - run: mypy --ignore-missing-imports .
+      - run: isort --check-only .
+      - run: mypy .
       - run: pytest -vv .
       - run: pytest --doctest-modules .
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py
