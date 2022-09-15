@@ -4,6 +4,7 @@
 /.venv
 
 .mypy_cache
+tap2junit.egg-info/
 
 dist
 build
