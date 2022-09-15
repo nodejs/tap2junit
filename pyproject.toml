@@ -29,11 +29,6 @@ tap2junit = "tap2junit.__main__:main"
 [project.urls]
 repository = "https://github.com/nodejs/tap2junit"
 
-[project.optional-dependencies]
-test = [
-  "pytest", "bandit", "black", "codespell", "flake8", "isort", "mypy", "pytest", "pyupgrade", "safety", "pytest-clarity"
-]
-
 [tool.bandit]
   exclude_dirs = ["test"]
 
