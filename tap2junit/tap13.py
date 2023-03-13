@@ -39,7 +39,9 @@ RE_YAML_BLOCK = re.compile(r"^.*:\s*[|>][+-]?\s*$")
 
 
 class Test:
-    def __init__(self, result, id, description=None, directive=None, comment=None):
+    def __init__(
+        self, result, id, description=None, directive=None, comment=None  # noqa: A002
+    ):
         self.result = result
         self.id = id
         self.description = description
@@ -105,7 +107,7 @@ class TAP13:
         if match:
             # It is an error if version is anything below 13 (so not an int is an error)
             version = int(match.groupdict()["version"])
-            if version < 13:
+            if version < 13:  # noqa: PLR2004
                 raise ValueError("Version specified is less than 13")
         else:
             # No version, so it is 12: https://testanything.org/tap-specification.html
@@ -139,7 +141,7 @@ class TAP13:
                 continue
 
             unstriped_line = line
-            line = unstriped_line.strip()
+            line = unstriped_line.strip()  # noqa: PLW2901
 
             if in_test:
                 if RE_EXPLANATION.match(line):

@@ -29,12 +29,21 @@ tap2junit = "tap2junit.__main__:main"
 [project.urls]
 repository = "https://github.com/nodejs/tap2junit"
 
-[tool.bandit]
-  exclude_dirs = ["test"]
-
-[tool.isort]
-  profile = "black"
-
 [tool.mypy]
-  exclude = ["build/"]
-  ignore_missing_imports = true
+exclude = ["build/"]
+ignore_missing_imports = true
+
+[tool.ruff]
+select = ["A", "B", "C4", "C9", "E", "F", "I", "PL", "S", "UP", "W", "YTT"]
+target-version = "py37"
+
+[tool.ruff.mccabe]
+max-complexity = 24
+
+[tool.ruff.per-file-ignores]
+"test/*" = ["S101"]  # Use of assert detected which is OK in pytests.
+
+[tool.ruff.pylint]
+max-args = 6
+max-branches = 25
+max-statements = 89
