@@ -9,14 +9,11 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install --upgrade pip setuptools wheel
-      - run: pip install bandit black codespell flake8 isort mypy pytest pyupgrade safety junit_xml yamlish pytest-clarity
-      - run: bandit --configfile pyproject.toml --recursive .
+      - run: pip install black codespell junit_xml mypy pytest pytest-clarity ruff safety yamlish
+      - run: ruff --format=github .
       - run: black --check .
       - run: codespell --skip="*.tap" --skip "*.xml"  # --ignore-words-list="" 
-      - run: flake8 . --max-complexity=24 --max-line-length=88 --show-source --statistics
-      - run: isort --check-only .
       - run: mypy .
       - run: pytest -vv .
       - run: pytest --doctest-modules .
-      - run: shopt -s globstar && pyupgrade --py36-plus **/*.py
       - run: safety check

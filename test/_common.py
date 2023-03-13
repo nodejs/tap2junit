@@ -1,6 +1,6 @@
 import platform
 
-replacements = dict([(platform.node(), "{HOSTNAME}")])
+replacements = {platform.node(): "{HOSTNAME}"}
 
 
 def normalize_output(s):
