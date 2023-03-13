@@ -74,7 +74,7 @@ def main():
     arg_parser.add_argument(
         "--input",
         "-i",
-        type=argparse.FileType("r", encoding="UTF-8"),
+        type=argparse.FileType("r", encoding="utf-8"),
         help="path to tap13 file",
         required=True,
     )
