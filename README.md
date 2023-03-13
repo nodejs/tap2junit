@@ -36,7 +36,6 @@ optional arguments:
 
 Suggested code hygiene:
 ```
-$ flake8 --max-line-length=88 .
-$ isort -rc .
+$ ruff .
 $ black .
 ```
