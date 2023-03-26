@@ -9,10 +9,10 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install --upgrade pip setuptools wheel
-      - run: pip install black codespell junit_xml mypy pytest pytest-clarity ruff safety yamlish
+      - run: pip install --editable ".[dev]"
+      - run: codespell .
       - run: ruff --format=github .
       - run: black --check .
-      - run: codespell --skip="*.tap" --skip "*.xml"  # --ignore-words-list="" 
       - run: mypy .
       - run: pytest -vv .
       - run: pytest --doctest-modules .

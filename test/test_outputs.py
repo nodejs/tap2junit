@@ -7,7 +7,7 @@ import pytest
 from _common import normalize_output
 
 
-class Test_Outputs:
+class TestOutputs:
     filelist = glob.glob("test/fixtures/*.tap")
     print(filelist)
 

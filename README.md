@@ -36,6 +36,6 @@ optional arguments:
 
 Suggested code hygiene:
 ```
-$ ruff .
+$ ruff --show-fixes --show-source .
 $ black .
 ```
