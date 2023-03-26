@@ -8,7 +8,7 @@ Improvements are welcome.
 
 To install from https://pypi.org/project/tap2junit (recommended):
 
-`pip install tap2junit` or `pipx install tap2junit`
+`pipx install tap2junit`
 
 To install directly from this repo (not recommended):
 
