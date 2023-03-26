@@ -42,6 +42,7 @@ tap2junit = "tap2junit.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/nodejs/tap2junit"
+Changelog = "https://github.com/nodejs/tap2junit/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["hatchling"]
