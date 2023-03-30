@@ -5,7 +5,7 @@ import platform
 import yamlish
 from junit_xml import TestCase, TestSuite
 
-from tap2junit.tap13 import TAP13 as tap13
+from tap2junit.tap13 import TAP13 as tap13  # noqa: N811
 
 
 def extract_test_info_from_description(description):
