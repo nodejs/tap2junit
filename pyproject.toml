@@ -31,7 +31,7 @@ dev = [
     "black",
     "codespell[toml]",
     "mypy",
-    "pytest",
+    "pytest<8.0.0",
     "pytest-clarity",
     "ruff",
     "safety",
