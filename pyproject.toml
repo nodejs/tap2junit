@@ -31,8 +31,8 @@ dev = [
     "black",
     "codespell[toml]",
     "mypy",
-    "pytest<7.0.0",
-    "pytest-clarity",
+    "pytest",
+    # "pytest-clarity",  # Unmaintained repo
     "ruff",
     "safety",
 ]
