@@ -32,7 +32,7 @@ dev = [
     "codespell[toml]",
     "mypy",
     "pytest",
-    # "pytest-clarity",  # Unmaintained repo
+    "pytest-clarity",
     "ruff",
     "safety",
 ]
