@@ -69,6 +69,10 @@ exclude = ["build/"]
 ignore_missing_imports = true
 
 [tool.ruff]
+line-length = 88    # Recommended: 88
+target-version = "py38"
+
+[tool.ruff.lint]
 select = [
     "A",
     "B",
@@ -96,17 +100,17 @@ select = [
     "W",
     "YTT",
 ]
-line-length = 88    # Recommended: 88
-target-version = "py37"
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 24 # Recommended: 10
 
-[tool.ruff.pylint]
+[tool.ruff.lint.pylint]
 max-args = 6        # Recommended: 5
 max-branches = 25   # Recommended: 12
 max-returns = 6     # Recommended: 6
 max-statements = 89 # Recommended: 50
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "test/*" = ["C406", "S101", "SIM115"]
+"test/_prepare_outputs.py" = ["PLW1510", "S603", "S607"]
+"test/test_outputs.py" = ["PLW1510", "S603", "S607"]
