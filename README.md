@@ -39,3 +39,10 @@ Suggested code hygiene:
 $ ruff --show-fixes --show-source .
 $ black .
 ```
+
+## Running tests locally
+
+```sh
+python3 -m pip install pytest yamlish junit_xml
+python3 -m pytest
+```

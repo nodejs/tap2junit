@@ -1,6 +1,7 @@
 import glob
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -16,5 +17,5 @@ class TestOutputs:
         name = os.path.basename(file).replace(".tap", "")
         original = f"./test/output/{name}.xml"
         output = f"{tmp_path}/out.xml"
-        subprocess.run(["python", "-m", "tap2junit", "-i", file, "-o", output])
+        subprocess.run([sys.executable, "-m", "tap2junit", "-i", file, "-o", output])
         assert Path(original).read_text() == normalize_output(Path(output).read_text())

@@ -1,6 +1,7 @@
 import glob
 import os
 import subprocess
+import sys
 
 from _common import normalize_output
 
@@ -9,7 +10,7 @@ for file in glob.glob("test/fixtures/*.tap"):
     output = f"test/output/{name}.xml"
     try:
         run = subprocess.run(
-            ["python", "-m", "tap2junit", "-i", file, "-o", output],
+            [sys.executable, "-m", "tap2junit", "-i", file, "-o", output],
             shell=False,
         )
         run.check_returncode()
