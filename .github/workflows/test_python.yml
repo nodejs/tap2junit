@@ -1,7 +1,11 @@
-name: lint_python
-on: [pull_request, push]
+name: test_python
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
 jobs:
-  lint_python:
+  test_python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
