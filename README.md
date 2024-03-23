@@ -43,6 +43,10 @@ $ black .
 ## Running tests locally
 
 ```sh
-python3 -m pip install --editable ".[dev]"
-python3 -m pytest
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install pytest
+pip install --editable ".[dev]"
+pytest
 ```
