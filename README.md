@@ -43,6 +43,6 @@ $ black .
 ## Running tests locally
 
 ```sh
-python3 -m pip install pytest yamlish junit_xml
+python3 -m pip install --editable ".[dev]"
 python3 -m pytest
 ```
