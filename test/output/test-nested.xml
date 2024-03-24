@@ -5,12 +5,29 @@
 		<testcase name="- top level 2" time="0.000303"/>
 		<testcase name="- nested 1" time="0.002368"/>
 		<testcase name="- nested 2" time="0.002332">
-			<failure type="failure" message=" (0)">process.emit (node:events:513:28)
-&lt;anonymous&gt; (node:events:51:28)
-&lt;anonymous&gt; (node:events:512:28)</failure>
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 2.332323873
+error: Promise resolution is still pending but the event loop has already resolved
+failureType: cancelledByParent
+stack: |-
+  process.emit (node:events:513:28)
+  &lt;anonymous&gt; (node:events:51:28)
+  &lt;anonymous&gt; (node:events:512:28)
+...
+</failure>
 		</testcase>
 		<testcase name="- nested" time="0.002368">
-			<failure type="failure" message=" (0)">process.emit (node:events:513:28)</failure>
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 2.367870901
+error: Promise resolution is still pending but the event loop has already resolved
+failureType: fail
+stack: process.emit (node:events:513:28)
+...
+</failure>
 			<system-err>['# Subtest: top level 4']</system-err>
 		</testcase>
 		<testcase name="- top level 4" time="0.000341"/>

@@ -939,6 +939,72 @@
 duration_ms: 4.339
 exitcode: -6
 severity: crashed
+stack: |-
+  DebugPrint: 0xe1d05f8a219: [JS_OBJECT_TYPE]
+   - map: 0x14e5844ec739 &lt;Map(HOLEY_ELEMENTS)&gt; [FastProperties]
+   - prototype: 0x0e1d05f958c1 &lt;Object map = 0x14e5844e9e51&gt;
+   - elements: 0x15574d2023b1 &lt;FixedArray[0]&gt; [HOLEY_ELEMENTS]
+   - properties: 0x15574d2023b1 &lt;FixedArray[0]&gt; {
+      #_readableState: 0x0e1d05f8a2f9 &lt;ReadableState map = 0x14e5844e7041&gt; (data field 0)
+      #readable: 0x15574d2029a1 &lt;false&gt; (data field 1)
+      #_events: 0x0e1d05f8a489 &lt;Object map = 0x14e584483a69&gt; (data field 2)
+      #_eventsCount: 0 (data field 3)
+      #_maxListeners: 0x15574d2026f1 &lt;undefined&gt; (data field 4)
+      #socket: 0x0e1d05f89431 &lt;Socket map = 0x14e5844ebe49&gt; (data field 5)
+      #connection: 0x0e1d05f89431 &lt;Socket map = 0x14e5844ebe49&gt; (data field 6)
+      #httpVersionMajor: 1 (data field 7)
+      #httpVersionMinor: 1 (data field 8)
+      #httpVersion: 0x0e1d05f8a531 &lt;String[3]: 1.1&gt; (data field 9)
+      #complete: 0x15574d2028c9 &lt;true&gt; (data field 10)
+      #headers: 0x0e1d05f8a4a1 &lt;Object map = 0x14e5844eb241&gt; (data field 11)
+      #rawHeaders: 0x0e1d05f8a0b1 &lt;JSArray[4]&gt; (data field 12)
+      #trailers: 0x0e1d05f8a4d9 &lt;Object map = 0x14e584482571&gt; (data field 13)
+      #rawTrailers: 0x0e1d05f8a511 &lt;JSArray[0]&gt; (data field 14)
+      #aborted: 0x15574d2029a1 &lt;false&gt; (data field 15)
+      #upgrade: 0x15574d2029a1 &lt;false&gt; (data field 16)
+      #url: 0x2ba3efe04d69 &lt;String[1]: /&gt; (data field 17)
+      #method: 0x08828dac8739 &lt;String[3]: GET&gt; (data field 18)
+      #statusCode: 0x15574d2022b1 &lt;null&gt; (data field 19)
+      #statusMessage: 0x15574d2022b1 &lt;null&gt; (data field 20)
+      #client: 0x0e1d05f89431 &lt;Socket map = 0x14e5844ebe49&gt; (data field 21)
+      #_consuming: 0x15574d2029a1 &lt;false&gt; (data field 22)
+      #_dumped: 0x15574d2028c9 &lt;true&gt; (data field 23)
+   }
+  0x14e5844ec739: [Map]
+   - type: JS_OBJECT_TYPE
+   - instance size: 224
+   - inobject properties: 25
+   - elements kind: HOLEY_ELEMENTS
+   - unused property fields: 1
+   - enum length: invalid
+   - back pointer: 0x14e5844ec899 &lt;Map(HOLEY_ELEMENTS)&gt;
+   - prototype_validity cell: 0x25af6ee37c31 &lt;Cell value= 0&gt;
+   - instance descriptors #24: 0x0e1d05f870c1 &lt;DescriptorArray[92]&gt;
+   - layout descriptor: 0
+   - transitions #1: 0x14e5844ec8f1 &lt;Map(HOLEY_ELEMENTS)&gt;
+       #req: (transition to (data field, attrs: [WEC]) @ FATAL ERROR: v8::HandleScope::CreateHandle() Cannot create a handle without a HandleScope
+   1: 0x1a151c7 node::DumpBacktrace(_IO_FILE*) [out/Debug/node]
+   2: 0x1a523d5 node::Abort() [out/Debug/node]
+   3: 0x1a53076 node::FatalError(char const*, char const*) [out/Debug/node]
+   4: 0x1df5802 v8::Utils::ReportApiFailure(char const*, char const*) [out/Debug/node]
+   5: 0x1de2785 v8::Utils::ApiCheck(bool, char const*, char const*) [out/Debug/node]
+   6: 0x24da526 v8::internal::HandleScope::Extend(v8::internal::Isolate*) [out/Debug/node]
+   7: 0x1dcc33e v8::internal::HandleScope::CreateHandle(v8::internal::Isolate*, v8::internal::Object*) [out/Debug/node]
+   8: 0x1dcc412 v8::internal::HandleScope::GetHandle(v8::internal::Isolate*, v8::internal::Object*) [out/Debug/node]
+   9: 0x1dcc05b v8::internal::HandleBase::HandleBase(v8::internal::Object*, v8::internal::Isolate*) [out/Debug/node]
+  10: 0x1dde2f5 v8::internal::Handle&lt;v8::internal::Map&gt;::Handle(v8::internal::Map*, v8::internal::Isolate*) [out/Debug/node]
+  11: 0x1ef96be v8::internal::Handle&lt;v8::internal::Map&gt; v8::internal::handle&lt;v8::internal::Map&gt;(v8::internal::Map*, v8::internal::Isolate*) [out/Debug/node]
+  12: 0x24c01f2 v8::internal::FieldType::AsClass() [out/Debug/node]
+  13: 0x24c0435 v8::internal::FieldType::PrintTo(std::ostream&amp;) [out/Debug/node]
+  14: 0x27038b8 v8::internal::DescriptorArray::PrintDescriptorDetails(std::ostream&amp;, int, v8::internal::PropertyDetails::PrintMode) [out/Debug/node]
+  15: 0x2703c5a v8::internal::TransitionsAccessor::PrintOneTransition(std::ostream&amp;, v8::internal::Name*, v8::internal::Map*) [out/Debug/node]
+  16: 0x2703df8 v8::internal::TransitionsAccessor::PrintTransitions(std::ostream&amp;) [out/Debug/node]
+  17: 0x26fb22c v8::internal::Map::MapPrint(std::ostream&amp;) [out/Debug/node]
+  18: 0x26f827c v8::internal::HeapObject::HeapObjectPrint(std::ostream&amp;) [out/Debug/node]
+  19: 0x26f8073 v8::internal::Object::Print(std::ostream&amp;) [out/Debug/node]
+  20: 0x29a282f  [out/Debug/node]
+  21: 0x29a24d1 v8::internal::Runtime_DebugPrint(int, v8::internal::Object**, v8::internal::Isolate*) [out/Debug/node]
+  22: 0x3fcb0b31695f
 ...
 </error>
 		</testcase>

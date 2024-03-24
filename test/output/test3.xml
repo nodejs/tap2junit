@@ -2191,6 +2191,7 @@
 duration_ms: 41.541
 exitcode: -9
 severity: crashed
+stack: ''
 ...
 </error>
 		</testcase>
