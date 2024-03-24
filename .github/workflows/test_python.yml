@@ -1,9 +1,5 @@
 name: test_python
-on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+on: [pull_request, push]
 jobs:
   test_python:
     runs-on: ubuntu-latest
