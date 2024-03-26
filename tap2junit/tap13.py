@@ -66,8 +66,9 @@ class TAP13:
     def _parse_yaml(self, line, in_yaml, in_yaml_block):
         indentation = len(line) - len(line.lstrip())
         if in_yaml_block and indentation > self.tests[-1]._yaml_block_indentation:
+            self.tests[-1]._yaml_buffer.append(line.rstrip())
             return in_yaml, in_yaml_block
-        elif RE_YAML_BLOCK.match(line):
+        elif not in_yaml and RE_YAML_BLOCK.match(line):
             self.tests[-1]._yaml_block_indentation = indentation
             in_yaml_block = True
         elif RE_YAMLISH_END.match(line):

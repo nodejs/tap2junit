@@ -25,6 +25,8 @@ TAP version 13
           code: 'ERR_TEST_FAILURE'
           stack: |-
             process.emit (node:events:513:28)
+            <anonymous> (node:events:51:28)
+            <anonymous> (node:events:512:28)
           ...
         1..2
     not ok 3 - nested
