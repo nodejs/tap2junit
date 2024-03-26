@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<testsuites disabled="0" errors="0" failures="24" tests="65" time="0.019785572145999998">
-	<testsuite disabled="0" errors="0" failures="24" name="test/fixtures/yaml-block" skipped="11" tests="65" time="0.019785572145999998" hostname="{HOSTNAME}">
+<testsuites disabled="0" errors="0" failures="24" tests="65" time="0.019785572146">
+	<testsuite disabled="0" errors="0" failures="24" name="test/fixtures/yaml-block" skipped="11" tests="65" time="0.019785572146" hostname="{HOSTNAME}">
 		<testcase name="test_runner_describe_it" time="0.004758" classname="message">
 			<failure type="1" message="fail (1)">
 ---

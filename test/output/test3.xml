@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<testsuites disabled="0" errors="1" failures="0" tests="2367" time="1.138146">
-	<testsuite disabled="0" errors="1" failures="0" name="test/fixtures/test3" skipped="25" tests="2367" time="1.138146" hostname="{HOSTNAME}">
+<testsuites disabled="0" errors="1" failures="0" tests="2367" time="1.1381459999999999">
+	<testsuite disabled="0" errors="1" failures="0" name="test/fixtures/test3" skipped="25" tests="2367" time="1.1381459999999999" hostname="{HOSTNAME}">
 		<testcase name="test-async-await" time="0.000601" classname="async-hooks"/>
 		<testcase name="test-callback-error" time="0.000764" classname="async-hooks"/>
 		<testcase name="test-crypto-pbkdf2" time="0.000225" classname="async-hooks"/>

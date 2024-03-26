@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<testsuites disabled="0" errors="0" failures="2" tests="7" time="0.010541631081999998">
-	<testsuite disabled="0" errors="0" failures="2" name="test/fixtures/test-nested" skipped="0" tests="7" time="0.010541631081999998" hostname="{HOSTNAME}">
+<testsuites disabled="0" errors="0" failures="2" tests="7" time="0.010541631082">
+	<testsuite disabled="0" errors="0" failures="2" name="test/fixtures/test-nested" skipped="0" tests="7" time="0.010541631082" hostname="{HOSTNAME}">
 		<testcase name="- top level 1" time="0.000341"/>
 		<testcase name="- top level 2" time="0.000303"/>
 		<testcase name="- nested 1" time="0.002368"/>
