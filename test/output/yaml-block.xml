@@ -1,14 +1,434 @@
 <?xml version="1.0" encoding="utf-8"?>
-<testsuites disabled="0" errors="0" failures="1" tests="1" time="0.004758">
-	<testsuite disabled="0" errors="0" failures="1" name="test/fixtures/yaml-block" skipped="0" tests="1" time="0.004758" hostname="{HOSTNAME}">
+<testsuites disabled="0" errors="0" failures="24" tests="65" time="0.019785572146">
+	<testsuite disabled="0" errors="0" failures="24" name="test/fixtures/yaml-block" skipped="11" tests="65" time="0.019785572146" hostname="{HOSTNAME}">
 		<testcase name="test_runner_describe_it" time="0.004758" classname="message">
 			<failure type="1" message="fail (1)">
 ---
 duration_ms: 4.758
 exitcode: 1
 severity: fail
+stack: |-
+  TAP version 13
+  # Subtest: sync pass todo
+  ok 1 - sync pass todo # TODO
+    ---
+    duration_ms: 0.002648878
 ...
 </failure>
+			<system-err>['# Subtest: sync pass todo with message']</system-err>
+		</testcase>
+		<testcase name="None">
+			<failure type="failure" message=" (0)"/>
+		</testcase>
+		<testcase name="- sync pass todo with message " time="0.000000">
+			<skipped type="skipped" message="this is a passing todo"/>
+		</testcase>
+		<testcase name="- sync fail todo " time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000138322
+error: thrown from sync fail todo
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:17:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: sync fail todo with message']</system-err>
+		</testcase>
+		<testcase name="- sync fail todo with message " time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000129861
+error: thrown from sync fail todo with message
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:21:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: sync skip pass']</system-err>
+		</testcase>
+		<testcase name="- sync skip pass " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- sync skip pass with message " time="0.000000">
+			<skipped type="skipped" message="this is skipped"/>
+		</testcase>
+		<testcase name="- sync pass" time="0.000000"/>
+		<testcase name="- sync throw fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000102013
+error: thrown from sync throw fail
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:34:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: async skip pass']</system-err>
+		</testcase>
+		<testcase name="- async skip pass " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- async pass" time="0.000000"/>
+		<testcase name="- async throw fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000391804
+error: thrown from async throw fail
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:45:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: async assertion fail']</system-err>
+		</testcase>
+		<testcase name="- async assertion fail" time="0.000001">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_ASSERTION
+duration_ms: 0.001115182
+error: |-
+  Expected values to be strictly equal:
+
+  true !== false
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:50:10)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: resolve pass']</system-err>
+		</testcase>
+		<testcase name="- resolve pass" time="0.000000"/>
+		<testcase name="- reject fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000107195
+error: rejected from reject fail
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:58:25)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: unhandled rejection - passes but warns']</system-err>
+		</testcase>
+		<testcase name="- unhandled rejection - passes but warns" time="0.000000"/>
+		<testcase name="- async unhandled rejection - passes but warns" time="0.000000"/>
+		<testcase name="- immediate throw - passes but warns" time="0.000000"/>
+		<testcase name="- immediate reject - passes but warns" time="0.000000"/>
+		<testcase name="- immediate resolve pass" time="0.000001"/>
+		<testcase name="- +sync throw fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.00021773
+error: thrown from subtest sync throw fail
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:91:11)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  node:internal/test_runner/test:475:21
+  process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  async Suite.run (node:internal/test_runner/test:473:5)
+...
+</failure>
+		</testcase>
+		<testcase name="- subtest sync throw fail" time="0.000003">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.003179
+error: 1 subtest failed
+failureType: subtestsFailed
+...
+</failure>
+			<system-err>['# Subtest: sync throw non-error fail']</system-err>
+		</testcase>
+		<testcase name="- sync throw non-error fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000116291
+error: Symbol(thrown symbol from sync throw non-error fail)
+failureType: testCodeFailure
+...
+</failure>
+			<system-err>['# Subtest: level 0a', '# Subtest: level 1a']</system-err>
+		</testcase>
+		<testcase name="- level 1a" time="0.001000"/>
+		<testcase name="- level 1b" time="0.000000"/>
+		<testcase name="- level 1c" time="0.002000"/>
+		<testcase name="- level 1d" time="0.001502"/>
+		<testcase name="- level 0a" time="0.004504"/>
+		<testcase name="- +long running" time="0.003001"/>
+		<testcase name="- ++short running" time="0.000000"/>
+		<testcase name="- +short running" time="0.000000"/>
+		<testcase name="- top level" time="0.003004"/>
+		<testcase name="- invalid subtest - pass but subtest fails" time="0.000002"/>
+		<testcase name="- sync skip option " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- sync skip option with message " time="0.000000">
+			<skipped type="skipped" message="this is skipped"/>
+		</testcase>
+		<testcase name="- sync skip option is false fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 7.5765e-05
+error: this should be executed
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:176:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: &lt;anonymous&gt;']</system-err>
+		</testcase>
+		<testcase name="- &lt;anonymous&gt;" time="0.000000"/>
+		<testcase name="- functionOnly" time="0.000000"/>
+		<testcase name="- &lt;anonymous&gt;" time="0.000000"/>
+		<testcase name="- test with only a name provided" time="0.000000"/>
+		<testcase name="- &lt;anonymous&gt;" time="0.000000"/>
+		<testcase name="- &lt;anonymous&gt; " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- test with a name and options provided " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- functionAndOptions " time="0.000000">
+			<skipped type="skipped"/>
+		</testcase>
+		<testcase name="- escaped description \\ \" time="0.000000">
+			<system-out>\\\#\\</system-out>
+		</testcase>
+		<testcase name="- escaped skip message " time="0.000000">
+			<skipped type="skipped" message="\#skip"/>
+		</testcase>
+		<testcase name="- escaped todo message " time="0.000000">
+			<skipped type="skipped" message="\#todo"/>
+		</testcase>
+		<testcase name="- callback pass" time="0.000000"/>
+		<testcase name="- callback fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000175694
+error: callback failure
+failureType: testCodeFailure
+stack: |-
+  Immediate.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:218:10)
+  process.processImmediate (node:internal/timers:471:21)
+...
+</failure>
+			<system-err>['# Subtest: sync t is this in test']</system-err>
+		</testcase>
+		<testcase name="- sync t is this in test" time="0.000001"/>
+		<testcase name="- async t is this in test" time="0.000000"/>
+		<testcase name="- callback t is this in test" time="0.000000"/>
+		<testcase name="- callback also returns a Promise" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.0001219
+error: passed a callback but also returned a Promise
+failureType: callbackAndPromisePresent
+...
+</failure>
+			<system-err>['# Subtest: callback throw']</system-err>
+		</testcase>
+		<testcase name="- callback throw" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 7.9349e-05
+error: thrown from callback throw
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:240:9)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:325:21)
+  Test.processPendingSubtests (node:internal/test_runner/test:158:27)
+  ItTest.postRun (node:internal/test_runner/test:390:19)
+  ItTest.run (node:internal/test_runner/test:352:10)
+  async Test.processPendingSubtests (node:internal/test_runner/test:158:7)
+...
+</failure>
+			<system-err>['# Subtest: callback called twice']</system-err>
+		</testcase>
+		<testcase name="- callback called twice" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 8.6067e-05
+error: callback invoked multiple times
+failureType: multipleCallbackInvocations
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:245:3)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+...
+</failure>
+			<system-err>['# Subtest: callback called twice in different ticks']</system-err>
+		</testcase>
+		<testcase name="- callback called twice in different ticks" time="0.000000"/>
+		<testcase name="- callback called twice in future tick" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000366988
+error: callback invoked multiple times
+failureType: uncaughtException
+stack: process.emit (node:events:513:28)
+...
+</failure>
+			<system-err>['# Subtest: callback async throw']</system-err>
+		</testcase>
+		<testcase name="- callback async throw" time="0.000002">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.001866763
+error: thrown from callback async throw
+failureType: uncaughtException
+stack: process.emit (node:events:513:28)
+...
+</failure>
+			<system-err>['# Subtest: callback async throw after done']</system-err>
+		</testcase>
+		<testcase name="- callback async throw after done" time="0.000000"/>
+		<testcase name="- custom inspect symbol fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.000247675
+error: customized
+failureType: testCodeFailure
+...
+</failure>
+			<system-err>['# Subtest: custom inspect symbol that throws fail']</system-err>
+		</testcase>
+		<testcase name="- custom inspect symbol that throws fail" time="0.000001">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.001367034
+error: |-
+  {
+    foo: 1,
+    [Symbol(nodejs.util.inspect.custom)]: [Function: [nodejs.util.inspect.custom]]
+  }
+failureType: testCodeFailure
+...
+</failure>
+			<system-err>['# Subtest: subtest sync throw fails', '# Subtest: sync throw fails at first']</system-err>
+		</testcase>
+		<testcase name="- sync throw fails at first" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 5.0512e-05
+error: thrown from subtest sync throw fails at first
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:298:11)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  node:internal/test_runner/test:475:21
+  process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  async node:internal/test_runner/test:474:7
+  async Suite.run (node:internal/test_runner/test:473:5)
+...
+</failure>
+			<system-err>['# Subtest: sync throw fails at second']</system-err>
+		</testcase>
+		<testcase name="- sync throw fails at second" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 4.8566e-05
+error: thrown from subtest sync throw fails at second
+failureType: testCodeFailure
+stack: |-
+  Object.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:301:11)
+  ItTest.runInAsyncScope (node:async_hooks:203:9)
+  ItTest.run (node:internal/test_runner/test:338:15)
+  node:internal/test_runner/test:475:21
+  process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  async Suite.run (node:internal/test_runner/test:473:5)
+...
+</failure>
+		</testcase>
+		<testcase name="- subtest sync throw fails" time="0.000002">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 0.00245857
+error: 2 subtests failed
+failureType: subtestsFailed
+...
+</failure>
+			<system-err>['# Subtest: invalid subtest fail']</system-err>
+		</testcase>
+		<testcase name="- invalid subtest fail" time="0.000000">
+			<failure type="failure" message=" (0)">
+---
+code: ERR_TEST_FAILURE
+duration_ms: 6.2514e-05
+error: test could not be started because its parent finished
+failureType: parentAlreadyFinished
+stack: Immediate.&lt;anonymous&gt; (/Users/mosheatlow/repos/node/test/message/test_runner_describe_it.js:161:5)
+...
+</failure>
+			<system-err>['# Warning: Test &quot;unhandled rejection - passes but warns&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error: rejected from unhandled rejection fail&quot; and would have caused the test to fail, but instead triggered an unhandledRejection event.', '# Warning: Test &quot;async unhandled rejection - passes but warns&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error: rejected from async unhandled rejection fail&quot; and would have caused the test to fail, but instead triggered an unhandledRejection event.', '# Warning: Test &quot;immediate throw - passes but warns&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error: thrown from immediate throw fail&quot; and would have caused the test to fail, but instead triggered an uncaughtException event.', '# Warning: Test &quot;immediate reject - passes but warns&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error: rejected from immediate reject fail&quot; and would have caused the test to fail, but instead triggered an unhandledRejection event.', '# Warning: Test &quot;callback called twice in different ticks&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error [ERR_TEST_FAILURE]: callback invoked multiple times&quot; and would have caused the test to fail, but instead triggered an uncaughtException event.', '# Warning: Test &quot;callback async throw after done&quot; generated asynchronous activity after the test ended. This activity created the error &quot;Error: thrown from callback async throw after done&quot; and would have caused the test to fail, but instead triggered an uncaughtException event.', '# tests 54', '# pass 23', '# fail 17', '# cancelled 0', '# skipped 9', '# todo 5', '# duration_ms 4.566779807']</system-err>
 		</testcase>
 	</testsuite>
 </testsuites>
