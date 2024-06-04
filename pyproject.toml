@@ -34,7 +34,6 @@ dev = [
     "pytest",
     "pytest-clarity",
     "ruff",
-    "safety",
 ]
 
 [project.scripts]

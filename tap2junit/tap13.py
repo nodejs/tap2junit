@@ -191,16 +191,16 @@ class TAP13:
                         t_attrs["id"] = self.__tests_counter[-1]
                     t_attrs["id"] = int(t_attrs["id"])
                     if t_attrs["id"] < self.__tests_counter[-1]:
-                        raise ValueError("Descending test id on line: %r" % line)
+                        raise ValueError(f"Descending test id on line: {line!r}")
                     # according to TAP13 specs, missing tests must be handled as
                     # 'not ok' so here we add the missing tests in sequence
                     while t_attrs["id"] > self.__tests_counter[-1]:
+                        counter = self.__tests_counter[-1]
                         self.tests.append(
                             Test(
                                 "not ok",
                                 self.__tests_counter[-1],
-                                comment="DIAG: Test %s not present"
-                                % self.__tests_counter[-1],
+                                comment=f"DIAG: Test {counter} not present",
                             )
                         )
                         self.__tests_counter[-1] += 1
@@ -210,9 +210,7 @@ class TAP13:
                         # according to TAP13 specs, everything after this is an
                         # explanation of why testing must be stopped
                         t.diagnostics = t.diagnostics or t.description
-                        t.description = (
-                            "Bail out for Test %s" % self.__tests_counter[-1]
-                        )
+                        t.description = f"Bail out for Test {self.__tests_counter[-1]}"
                     self.tests.append(t)
                     in_test = True
                     continue
