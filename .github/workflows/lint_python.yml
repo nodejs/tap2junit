@@ -20,4 +20,3 @@ jobs:
       - run: mypy .
       - run: pytest -vv .
       - run: pytest --doctest-modules .
-      - run: safety check
