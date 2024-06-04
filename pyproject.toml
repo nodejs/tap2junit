@@ -100,6 +100,9 @@ select = [
     "W",
     "YTT",
 ]
+ignore = [
+  "UP031",
+]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 24 # Recommended: 10
