@@ -9,7 +9,7 @@
 
 ### Fixes
 
-fix missing stack property ([4ddd24](https://github.com/nodejs/tap2junit/commit/4ddd2472a94b6153d7f298fc63fde04980903f66))
+* fix missing stack property ([4ddd24](https://github.com/nodejs/tap2junit/commit/4ddd2472a94b6153d7f298fc63fde04980903f66))
 
 ### 0.1.6
 * Support for parsing YAML blocks
