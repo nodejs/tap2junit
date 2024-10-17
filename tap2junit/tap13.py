@@ -184,7 +184,7 @@ class TAP13:
             if seek_test:
                 match = RE_TEST_LINE.match(line)
                 if match:
-                    self._handle_indentation(len(unstriped_line) - len(line))
+                    self._handle_indentation(len(unstriped_line) - len(unstriped_line.lstrip()))
                     self.__tests_counter[-1] += 1
                     t_attrs = match.groupdict()
                     if t_attrs["id"] is None:
